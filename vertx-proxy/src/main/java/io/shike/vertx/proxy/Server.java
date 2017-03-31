@@ -47,5 +47,6 @@ public class Server extends AbstractVerticle {
     @Override
     public void stop(Future<Void> stopFuture) throws Exception {
         httpServer1.close(stopFuture.completer());
+        httpServer2.close(stopFuture.completer());
     }
 }
