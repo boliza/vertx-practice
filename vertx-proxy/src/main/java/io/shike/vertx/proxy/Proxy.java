@@ -34,7 +34,7 @@ public class Proxy extends AbstractVerticle {
 
     private void proxyWebSocket(ServerWebSocket ws) {
         ws.handler(data -> {
-            logger.info("proxy message:" + data.toString("utf-8"));
+            logger.info("proxy message:" + data.toString("utf-8") + " , from path:" + ws.path());
             client.websocket(8080, "localhost", "/some-uri", websocket -> {
                 websocket.handler(proxy -> {
                     logger.info("server message:" + proxy.toString("utf-8"));
