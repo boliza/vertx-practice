@@ -20,7 +20,7 @@
 <script>
     var socket;
     if (window.WebSocket) {
-        socket = new WebSocket("ws://localhost:8181/myapp");
+        socket = new WebSocket("ws://localhost:8181/wspath1");
         socket.onmessage = function (event) {
             alert("Received data from websocket: " + event.data);
         }

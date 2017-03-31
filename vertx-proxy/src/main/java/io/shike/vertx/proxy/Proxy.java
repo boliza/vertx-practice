@@ -35,7 +35,7 @@ public class Proxy extends AbstractVerticle {
     private void proxyWebSocket(ServerWebSocket ws) {
         ws.handler(data -> {
             logger.info("proxy message:" + data.toString("utf-8") + " , from path:" + ws.path());
-            client.websocket(8080, "localhost", "/some-uri", websocket -> {
+            client.websocket("/wspath1".equals(ws.path()) ? 8080 : 8081, "localhost", "/some-uri", websocket -> {
                 websocket.handler(proxy -> {
                     logger.info("server message:" + proxy.toString("utf-8"));
                     ws.writeBinaryMessage(proxy);
@@ -48,7 +48,7 @@ public class Proxy extends AbstractVerticle {
     private void proxyHttp(HttpServerRequest request) {
         logger.info("proxying request:" + request.uri());
         HttpClientRequest proxyRequest = client.request(request.method(),
-                                                        8080,
+                                                        request.uri().equals("/ws1") ? 8080 : 8081,
                                                         "localhost",
                                                         request.uri(),
                                                         response -> {

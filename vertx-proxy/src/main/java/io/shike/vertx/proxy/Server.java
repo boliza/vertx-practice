@@ -11,25 +11,41 @@ import io.vertx.core.logging.LoggerFactory;
  */
 public class Server extends AbstractVerticle {
 
-    HttpServer httpServer;
+    HttpServer httpServer1;
+    HttpServer httpServer2;
     private Logger logger = LoggerFactory.getLogger(Server.class);
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
-        httpServer = vertx.createHttpServer()
-                          .websocketHandler(ws -> ws.handler(ws::writeBinaryMessage))
-                          .requestHandler(req -> {
-                              if (req.uri().equals("/")) {
-                                  req.response().sendFile("ws.html");
+        httpServer1 = vertx.createHttpServer()
+                           .websocketHandler(ws -> ws.handler(data -> {
+                               data.appendString(", from server1");
+                               ws.writeBinaryMessage(data);
+                           }))
+                           .requestHandler(req -> {
+                               if (req.uri().equals("/ws1")) {
+                                   req.response().sendFile("ws1.html");
                               }
                           })
-                          .listen(8080);
-        logger.info("start server");
+                           .listen(8080);
+        logger.info("start server1");
+
+        httpServer2 = vertx.createHttpServer()
+                           .websocketHandler(ws -> ws.handler(data -> {
+                               data.appendString(", from server2");
+                               ws.writeBinaryMessage(data);
+                           }))
+                           .requestHandler(req -> {
+                               if (req.uri().equals("/ws2")) {
+                                   req.response().sendFile("ws2.html");
+                               }
+                           })
+                           .listen(8081);
         startFuture.complete();
     }
 
     @Override
     public void stop(Future<Void> stopFuture) throws Exception {
-        httpServer.close(stopFuture.completer());
+        httpServer1.close(stopFuture.completer());
     }
 }
