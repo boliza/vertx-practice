@@ -11,9 +11,10 @@ import io.vertx.core.logging.LoggerFactory;
  */
 public class Server extends AbstractVerticle {
 
-    HttpServer httpServer1;
-    HttpServer httpServer2;
     private Logger logger = LoggerFactory.getLogger(Server.class);
+
+    private HttpServer httpServer1;
+    private HttpServer httpServer2;
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
@@ -41,6 +42,8 @@ public class Server extends AbstractVerticle {
                                }
                            })
                            .listen(8081);
+        logger.info("start server2");
+
         startFuture.complete();
     }
 

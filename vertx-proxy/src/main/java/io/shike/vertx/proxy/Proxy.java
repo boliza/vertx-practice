@@ -53,15 +53,16 @@ public class Proxy extends AbstractVerticle {
                                                         request.uri(),
                                                         response -> {
                                                             logger.info("proxying response: " + response.statusCode());
-                                                            request.response().setChunked(true);
-                                                            request.response().setStatusCode(response.statusCode());
-                                                            request.response().headers().setAll(response.headers());
-                                                            response.handler(data -> request.response().write(data));
-                                                            response.endHandler((v) -> request.response().end());
+                                                            request.response()
+                                                                   .setChunked(true)
+                                                                   .setStatusCode(response.statusCode())
+                                                                   .headers().setAll(response.headers());
+                                                            response.handler(data -> request.response().write(data))
+                                                                    .endHandler((v) -> request.response().end());
                                                         });
         proxyRequest.setChunked(true);
         proxyRequest.headers().setAll(request.headers());
-        request.handler(data -> proxyRequest.write(data));
+        request.handler(proxyRequest::write);
         request.endHandler((v) -> proxyRequest.end());
     }
 
