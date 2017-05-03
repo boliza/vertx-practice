@@ -9,8 +9,9 @@ targetCompatibility = 1.8
 mainClassName = 'io.vertx.core.Launcher'
 
 dependencies {
-    compile "io.vertx:vertx-core:3.3.3"
-    compile "io.vertx:vertx-web:3.3.3"
+    compile "io.vertx:vertx-core:3.4.1"
+    compile "io.vertx:vertx-web:3.4.1"
+    compile 'io.vertx:vertx-web-client:3.4.1'
 }
 
 shadowJar {
