@@ -2,6 +2,7 @@ package io.shike.vertx.file;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.file.AsyncFile;
 import io.vertx.core.file.FileSystem;
 import io.vertx.core.file.OpenOptions;
@@ -22,7 +23,6 @@ public class Startup extends AbstractVerticle {
     }
 
     @Override
-    //TODO if the last line do't has a line.separator as defined ,how to read last line
     public void start() throws Exception {
         FileSystem fs = vertx.fileSystem();
         RecordParser parser = RecordParser.newDelimited(System.getProperty("line.separator", "\n"),
@@ -31,7 +31,10 @@ public class Startup extends AbstractVerticle {
             if (ar.succeeded()) {
                 AsyncFile file = ar.result();
                 file.handler(parser);
-                file.endHandler(h -> vertx.close());
+                file.endHandler(h -> {
+                    parser.handle(Buffer.buffer(System.getProperty("line.separator", "\n")));// add this to read the last buffer
+                    vertx.close();
+                });
             } else {
                 logger.error("can't find file");
             }
