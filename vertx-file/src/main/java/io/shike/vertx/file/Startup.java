@@ -1,6 +1,5 @@
 package io.shike.vertx.file;
 
-import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.file.AsyncFile;
@@ -13,17 +12,12 @@ import io.vertx.core.parsetools.RecordParser;
 /**
  * @author Ranger Tsao(https://github.com/boliza)
  */
-public class Startup extends AbstractVerticle {
+public class Startup {
 
-    private Logger logger = LoggerFactory.getLogger(Startup.class);
+    private static Logger logger = LoggerFactory.getLogger(Startup.class);
 
     public static void main(String[] args) {
         Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(new Startup());
-    }
-
-    @Override
-    public void start() throws Exception {
         FileSystem fs = vertx.fileSystem();
         RecordParser parser = RecordParser.newDelimited(System.getProperty("line.separator", "\n"),
                                                         buffer -> logger.info("name of this line is: {0}", buffer.toString()));
@@ -41,7 +35,4 @@ public class Startup extends AbstractVerticle {
         });
     }
 
-    @Override
-    public void stop() throws Exception {
-    }
 }
