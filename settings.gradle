@@ -2,4 +2,5 @@ rootProject.name = 'vertx-practice'
 include 'vertx-proxy'
 include 'vertx-couchdb'
 include 'vertx-file'
+include 'vertx-jdbc'
 
