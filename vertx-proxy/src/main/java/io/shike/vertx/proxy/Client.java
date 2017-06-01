@@ -8,13 +8,13 @@ import io.vertx.core.Future;
  */
 public class Client extends AbstractVerticle {
 
-    @Override
-    public void start(Future<Void> startFuture) throws Exception {
-        startFuture.complete();
-    }
+  @Override
+  public void start(Future<Void> startFuture) throws Exception {
+    startFuture.complete();
+  }
 
-    @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
-        stopFuture.complete();
-    }
+  @Override
+  public void stop(Future<Void> stopFuture) throws Exception {
+    stopFuture.complete();
+  }
 }

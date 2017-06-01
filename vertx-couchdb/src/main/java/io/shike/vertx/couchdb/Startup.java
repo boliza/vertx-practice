@@ -16,37 +16,37 @@ import io.vertx.ext.web.codec.BodyCodec;
  */
 public class Startup extends AbstractVerticle {
 
-    private Logger logger = LoggerFactory.getLogger(Startup.class);
+  private Logger logger = LoggerFactory.getLogger(Startup.class);
 
-    public static void main(String[] args) {
-        Vertx vertx = Vertx.vertx();
-        vertx.deployVerticle(new Startup());
-    }
+  public static void main(String[] args) {
+    Vertx vertx = Vertx.vertx();
+    vertx.deployVerticle(new Startup());
+  }
 
-    @Override
-    public void start(Future<Void> startFuture) throws Exception {
-        String basic = Base64.getEncoder().encodeToString("metagraph:metagraph".getBytes());
-        logger.info("Basic is {0}", basic);
-        WebClient client = WebClient.create(vertx);
-        client.post(5984, "127.0.0.1", "/_replicate")
-              .as(BodyCodec.jsonObject())
-              .putHeader("Authorization", "Basic " + basic)
-              .sendJsonObject(new JsonObject().put("source", "metagraph")
-                                              .put("target", "test")
-                                              .put("continuous", true)
-                                              .put("create_target", true),
-                              ar -> {
-                                  if (ar.succeeded()) {
-                                      logger.info(ar.result().body());
-                                  } else {
-                                      logger.error(ar.cause().getMessage());
-                                  }
-                              });
-        startFuture.complete();
-    }
+  @Override
+  public void start(Future<Void> startFuture) throws Exception {
+    String basic = Base64.getEncoder().encodeToString("metagraph:metagraph".getBytes());
+    logger.info("Basic is {0}", basic);
+    WebClient client = WebClient.create(vertx);
+    client.post(5984, "127.0.0.1", "/_replicate")
+          .as(BodyCodec.jsonObject())
+          .putHeader("Authorization", "Basic " + basic)
+          .sendJsonObject(new JsonObject().put("source", "metagraph")
+                                          .put("target", "test")
+                                          .put("continuous", true)
+                                          .put("create_target", true),
+                          ar -> {
+                            if (ar.succeeded()) {
+                              logger.info(ar.result().body());
+                            } else {
+                              logger.error(ar.cause().getMessage());
+                            }
+                          });
+    startFuture.complete();
+  }
 
-    @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
-        stopFuture.complete();
-    }
+  @Override
+  public void stop(Future<Void> stopFuture) throws Exception {
+    stopFuture.complete();
+  }
 }

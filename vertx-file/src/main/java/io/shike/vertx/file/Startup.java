@@ -14,25 +14,25 @@ import io.vertx.core.parsetools.RecordParser;
  */
 public class Startup {
 
-    private static Logger logger = LoggerFactory.getLogger(Startup.class);
+  private static Logger logger = LoggerFactory.getLogger(Startup.class);
 
-    public static void main(String[] args) {
-        Vertx vertx = Vertx.vertx();
-        FileSystem fs = vertx.fileSystem();
-        RecordParser parser = RecordParser.newDelimited(System.getProperty("line.separator", "\n"),
-                                                        buffer -> logger.info("name of this line is: {0}", buffer.toString()));
-        fs.open("names.txt", new OpenOptions(), ar -> {
-            if (ar.succeeded()) {
-                AsyncFile file = ar.result();
-                file.handler(parser);
-                file.endHandler(h -> {
-                    parser.handle(Buffer.buffer(System.getProperty("line.separator", "\n")));// add this to read the last buffer
-                    vertx.close();
-                });
-            } else {
-                logger.error("can't find file");
-            }
+  public static void main(String[] args) {
+    Vertx vertx = Vertx.vertx();
+    FileSystem fs = vertx.fileSystem();
+    RecordParser parser = RecordParser.newDelimited(System.getProperty("line.separator", "\n"),
+                                                    buffer -> logger.info("name of this line is: {0}", buffer.toString()));
+    fs.open("names.txt", new OpenOptions(), ar -> {
+      if (ar.succeeded()) {
+        AsyncFile file = ar.result();
+        file.handler(parser);
+        file.endHandler(h -> {
+          parser.handle(Buffer.buffer(System.getProperty("line.separator", "\n")));// add this to read the last buffer
+          vertx.close();
         });
-    }
+      } else {
+        logger.error("can't find file");
+      }
+    });
+  }
 
 }

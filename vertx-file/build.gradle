@@ -1,7 +1,7 @@
 plugins {
-    id 'java'
-    id 'application'
-    id 'com.github.johnrengelman.shadow' version '1.2.3'
+  id 'java'
+  id 'application'
+  id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
 sourceCompatibility = 1.8
@@ -9,14 +9,14 @@ targetCompatibility = 1.8
 mainClassName = 'io.shike.vertx.file.Startup'
 
 dependencies {
-    compile "io.vertx:vertx-core:3.4.1"
+  compile "io.vertx:vertx-core:3.4.1"
 }
 
 shadowJar {
-    classifier = 'fat'
-    manifest {
-    }
-    mergeServiceFiles {
-        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
-    }
+  classifier = 'fat'
+  manifest {
+  }
+  mergeServiceFiles {
+    include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+  }
 }

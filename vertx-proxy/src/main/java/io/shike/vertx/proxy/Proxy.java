@@ -16,59 +16,59 @@ import io.vertx.core.logging.LoggerFactory;
  */
 public class Proxy extends AbstractVerticle {
 
-    private Logger logger = LoggerFactory.getLogger(Proxy.class);
+  private Logger logger = LoggerFactory.getLogger(Proxy.class);
 
-    private HttpServer server;
-    private HttpClient client;
+  private HttpServer server;
+  private HttpClient client;
 
-    @Override
-    public void start(Future<Void> startFuture) throws Exception {
-        client = vertx.createHttpClient(new HttpClientOptions());
-        server = vertx.createHttpServer()
-                      .websocketHandler(this::proxyWebSocket)
-                      .requestHandler(this::proxyHttp)
-                      .listen(8181);
-        logger.info("start proxy server");
-        startFuture.complete();
-    }
+  @Override
+  public void start(Future<Void> startFuture) throws Exception {
+    client = vertx.createHttpClient(new HttpClientOptions());
+    server = vertx.createHttpServer()
+                  .websocketHandler(this::proxyWebSocket)
+                  .requestHandler(this::proxyHttp)
+                  .listen(8181);
+    logger.info("start proxy server");
+    startFuture.complete();
+  }
 
-    private void proxyWebSocket(ServerWebSocket ws) {
-        ws.handler(data -> {
-            logger.info("proxy message:" + data.toString("utf-8") + " , from path:" + ws.path());
-            client.websocket("/wspath1".equals(ws.path()) ? 8080 : 8081, "localhost", "/some-uri", websocket -> {
-                websocket.handler(proxy -> {
-                    logger.info("server message:" + proxy.toString("utf-8"));
-                    ws.writeBinaryMessage(proxy);
-                });
-                websocket.writeBinaryMessage(data);
-            });
+  private void proxyWebSocket(ServerWebSocket ws) {
+    ws.handler(data -> {
+      logger.info("proxy message:" + data.toString("utf-8") + " , from path:" + ws.path());
+      client.websocket("/wspath1".equals(ws.path()) ? 8080 : 8081, "localhost", "/some-uri", websocket -> {
+        websocket.handler(proxy -> {
+          logger.info("server message:" + proxy.toString("utf-8"));
+          ws.writeBinaryMessage(proxy);
         });
-    }
+        websocket.writeBinaryMessage(data);
+      });
+    });
+  }
 
-    private void proxyHttp(HttpServerRequest request) {
-        logger.info("proxying request:" + request.uri());
-        HttpClientRequest proxyRequest = client.request(request.method(),
-                                                        request.uri().equals("/ws1") ? 8080 : 8081,
-                                                        "localhost",
-                                                        request.uri(),
-                                                        response -> {
-                                                            logger.info("proxying response: " + response.statusCode());
-                                                            request.response()
-                                                                   .setChunked(true)
-                                                                   .setStatusCode(response.statusCode())
-                                                                   .headers().setAll(response.headers());
-                                                            response.handler(data -> request.response().write(data))
-                                                                    .endHandler((v) -> request.response().end());
-                                                        });
-        proxyRequest.setChunked(true);
-        proxyRequest.headers().setAll(request.headers());
-        request.handler(proxyRequest::write);
-        request.endHandler((v) -> proxyRequest.end());
-    }
+  private void proxyHttp(HttpServerRequest request) {
+    logger.info("proxying request:" + request.uri());
+    HttpClientRequest proxyRequest = client.request(request.method(),
+                                                    request.uri().equals("/ws1") ? 8080 : 8081,
+                                                    "localhost",
+                                                    request.uri(),
+                                                    response -> {
+                                                      logger.info("proxying response: " + response.statusCode());
+                                                      request.response()
+                                                             .setChunked(true)
+                                                             .setStatusCode(response.statusCode())
+                                                             .headers().setAll(response.headers());
+                                                      response.handler(data -> request.response().write(data))
+                                                              .endHandler((v) -> request.response().end());
+                                                    });
+    proxyRequest.setChunked(true);
+    proxyRequest.headers().setAll(request.headers());
+    request.handler(proxyRequest::write);
+    request.endHandler((v) -> proxyRequest.end());
+  }
 
-    @Override
-    public void stop(Future<Void> stopFuture) throws Exception {
-        client.close();
-        server.close(stopFuture.completer());
-    }
+  @Override
+  public void stop(Future<Void> stopFuture) throws Exception {
+    client.close();
+    server.close(stopFuture.completer());
+  }
 }
