@@ -9,9 +9,9 @@ public class ConsumerVerticle extends AbstractVerticle {
 
   @Override
   public void start() throws Exception {
-//    for (String address : Startup.addresses) {
-//      vertx.eventBus().consumer(address, event -> System.out.println(event.address() + " consumer message: " + event.body()));
-//    }
+    for (String address : Startup.addresses) {
+      vertx.eventBus().consumer(address, event -> System.out.println(event.address() + " consumer message: " + event.body()));
+    }
     super.start();
   }
 
