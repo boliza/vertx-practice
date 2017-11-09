@@ -5,4 +5,5 @@ include 'vertx-file'
 include 'vertx-jdbc'
 include 'vertx-async'
 include 'vertx-eventbus'
+include 'vertx-groovy'
 
