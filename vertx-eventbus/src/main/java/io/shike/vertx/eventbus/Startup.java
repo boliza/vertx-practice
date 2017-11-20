@@ -3,7 +3,6 @@ package io.shike.vertx.eventbus;
 import java.util.Arrays;
 import java.util.List;
 
-import io.vertx.core.CompositeFuture;
 import io.vertx.core.Future;
 import io.vertx.core.Vertx;
 
@@ -16,18 +15,11 @@ public class Startup {
 
   public static void main(String[] args) {
     Vertx vertx = Vertx.vertx();
-    Future future1 = Future.future();
-    Future future2 = Future.future();
-    vertx.deployVerticle(new ConsumerVerticle(), future1);
-    vertx.deployVerticle(new ProducerVerticle(), future2);
-
-    CompositeFuture.all(future1, future2).setHandler(event -> {
-      if (event.succeeded()) {
-        System.out.println("Startup consumer and producer verticles");
-      } else {
-        event.cause().printStackTrace();
-      }
-    });
+    Future<String> future1 = Future.future();
+    Future<String> future2 = Future.future();
+    future1.compose((String event) -> vertx.deployVerticle(new ConsumerVerticle()), future2)
+           .setHandler(f2 -> System.out.println("Start two verticles"));
+    vertx.deployVerticle(new ProducerVerticle(), future1);
   }
 
 }
