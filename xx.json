@@ -1,0 +1,95 @@
+{
+  "tokens": [
+    {
+      "token": "中华人民共和国",
+      "start_offset": 0,
+      "end_offset": 7,
+      "type": "ns",
+      "position": 0
+    },
+    {
+      "token": "中华人民",
+      "start_offset": 0,
+      "end_offset": 4,
+      "type": "nz",
+      "position": 1
+    },
+    {
+      "token": "中华",
+      "start_offset": 0,
+      "end_offset": 2,
+      "type": "nz",
+      "position": 2
+    },
+    {
+      "token": "华人",
+      "start_offset": 1,
+      "end_offset": 3,
+      "type": "n",
+      "position": 3
+    },
+    {
+      "token": "人民共和国",
+      "start_offset": 2,
+      "end_offset": 7,
+      "type": "nz",
+      "position": 4
+    },
+    {
+      "token": "人民",
+      "start_offset": 2,
+      "end_offset": 4,
+      "type": "n",
+      "position": 5
+    },
+    {
+      "token": "共和国",
+      "start_offset": 4,
+      "end_offset": 7,
+      "type": "n",
+      "position": 6
+    },
+    {
+      "token": "共和",
+      "start_offset": 4,
+      "end_offset": 6,
+      "type": "n",
+      "position": 7
+    },
+    {
+      "token": "人口众多",
+      "start_offset": 8,
+      "end_offset": 12,
+      "type": "l",
+      "position": 8
+    },
+    {
+      "token": "人口",
+      "start_offset": 8,
+      "end_offset": 10,
+      "type": "n",
+      "position": 9
+    },
+    {
+      "token": "众多",
+      "start_offset": 10,
+      "end_offset": 12,
+      "type": "a",
+      "position": 10
+    },
+    {
+      "token": "地大物博",
+      "start_offset": 15,
+      "end_offset": 19,
+      "type": "nz",
+      "position": 11
+    },
+    {
+      "token": "地大",
+      "start_offset": 15,
+      "end_offset": 17,
+      "type": "nz",
+      "position": 12
+    }
+  ]
+}
