@@ -4,91 +4,91 @@
       "token": "中华人民共和国",
       "start_offset": 0,
       "end_offset": 7,
-      "type": "ns",
+      "type": "CN_WORD",
       "position": 0
     },
     {
       "token": "中华人民",
       "start_offset": 0,
       "end_offset": 4,
-      "type": "nz",
+      "type": "CN_WORD",
       "position": 1
     },
     {
       "token": "中华",
       "start_offset": 0,
       "end_offset": 2,
-      "type": "nz",
+      "type": "CN_WORD",
       "position": 2
     },
     {
       "token": "华人",
       "start_offset": 1,
       "end_offset": 3,
-      "type": "n",
+      "type": "CN_WORD",
       "position": 3
     },
     {
       "token": "人民共和国",
       "start_offset": 2,
       "end_offset": 7,
-      "type": "nz",
+      "type": "CN_WORD",
       "position": 4
     },
     {
       "token": "人民",
       "start_offset": 2,
       "end_offset": 4,
-      "type": "n",
+      "type": "CN_WORD",
       "position": 5
     },
     {
       "token": "共和国",
       "start_offset": 4,
       "end_offset": 7,
-      "type": "n",
+      "type": "CN_WORD",
       "position": 6
     },
     {
       "token": "共和",
       "start_offset": 4,
       "end_offset": 6,
-      "type": "n",
+      "type": "CN_WORD",
       "position": 7
     },
     {
-      "token": "人口众多",
-      "start_offset": 8,
-      "end_offset": 12,
-      "type": "l",
+      "token": "国",
+      "start_offset": 6,
+      "end_offset": 7,
+      "type": "CN_CHAR",
       "position": 8
     },
     {
-      "token": "人口",
+      "token": "地大物博",
       "start_offset": 8,
-      "end_offset": 10,
-      "type": "n",
+      "end_offset": 12,
+      "type": "CN_WORD",
       "position": 9
     },
     {
-      "token": "众多",
-      "start_offset": 10,
-      "end_offset": 12,
-      "type": "a",
+      "token": "地大",
+      "start_offset": 8,
+      "end_offset": 10,
+      "type": "CN_WORD",
       "position": 10
     },
     {
-      "token": "地大物博",
-      "start_offset": 15,
-      "end_offset": 19,
-      "type": "nz",
+      "token": "物",
+      "start_offset": 10,
+      "end_offset": 11,
+      "type": "CN_CHAR",
       "position": 11
     },
     {
-      "token": "地大",
-      "start_offset": 15,
-      "end_offset": 17,
-      "type": "nz",
+      "token": "博",
+      "start_offset": 11,
+      "end_offset": 12,
+      "type": "CN_CHAR",
       "position": 12
     }
   ]
