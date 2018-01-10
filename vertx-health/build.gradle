@@ -9,19 +9,22 @@ targetCompatibility = 1.8
 mainClassName = 'io.vertx.core.Launcher'
 
 dependencies {
-  compile 'io.vertx:vertx-core:3.5.0'
-  compile 'io.vertx:vertx-jdbc-client:3.5.0'
-  compile 'io.vertx:vertx-mongo-client:3.5.0'
-  compile 'io.vertx:vertx-sql-common:3.5.0'
-  runtime 'mysql:mysql-connector-java:5.1.41'
+  compile "io.vertx:vertx-core:3.5.0"
+  compile 'io.vertx:vertx-lang-groovy:3.5.0'
+  compile 'io.vertx:vertx-health-check:3.5.0'
+}
+
+processResources {
+  from 'src/main/groovy'
 }
 
 shadowJar {
   classifier = 'fat'
   manifest {
-    attributes 'Main-Verticle': 'io.shike.vertx.jdbc.Startup'
+    attributes 'Main-Verticle': 'io.shike.vertx.health.Startup'
   }
   mergeServiceFiles {
     include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
   }
+  mergeGroovyExtensionModules()
 }

@@ -6,4 +6,6 @@ include 'vertx-jdbc'
 include 'vertx-async'
 include 'vertx-eventbus'
 include 'vertx-groovy'
+include 'vertx-health'
+include 'vertx-metrics'
 

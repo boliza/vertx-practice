@@ -1,9 +1,8 @@
-package io.shike.vertx.eventbus;
+package io.shike.vertx.metrics;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 
@@ -17,20 +16,22 @@ public class ProducerVerticle extends AbstractVerticle {
   public static void main(String[] args) {
     Vertx.clusteredVertx(new VertxOptions(), cv -> {
       if (cv.succeeded()) {
-        cv.result().deployVerticle(ProducerVerticle.class, new DeploymentOptions().setHa(true), dv -> System.out.println("deploy: " + dv.result()));
+        cv.result().deployVerticle(new ProducerVerticle(), dv -> System.out.println("deploy: " + dv.result()));
       }
     });
   }
 
   @Override
   public void start() throws Exception {
-    vertx.setPeriodic(100, p -> {
-      vertx.eventBus().send(Startup.addresses.get(i.getAndIncrement() % 2), "message-" + i.get(), event -> {
-        if (event.failed()) {
-          System.out.println(event.cause().getMessage() + ";message:" + "message-" + i.get());
-        }
-      });
+    vertx.setPeriodic(100, ph -> {
+      vertx.eventBus().send(Startup.addresses.get(i.getAndIncrement() % 2), "message-" + i.get(),
+                            event -> {
+                              if (event.failed()) {
+                                System.out.println(event.cause().getMessage());
+                              }
+                            });
     });
+    super.start();
   }
 
   @Override

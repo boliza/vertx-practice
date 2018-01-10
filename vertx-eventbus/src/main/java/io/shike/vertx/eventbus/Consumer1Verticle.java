@@ -1,6 +1,7 @@
 package io.shike.vertx.eventbus;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 
@@ -14,16 +15,17 @@ public class Consumer1Verticle extends AbstractVerticle {
   public static void main(String[] args) {
     Vertx.clusteredVertx(new VertxOptions(), cv -> {
       if (cv.succeeded()) {
-        cv.result().deployVerticle(new Consumer1Verticle(), dv -> System.out.println("deploy: " + dv.result()));
+        cv.result().deployVerticle(Consumer1Verticle.class, new DeploymentOptions().setHa(true), dv -> System.out.println("deploy: " + dv.result()));
       }
     });
   }
 
   @Override
   public void start() throws Exception {
-    for (String address : Startup.addresses) {
-      vertx.eventBus().consumer(address, event -> System.out.println("ID:+" + ID + " ," + event.address() + " consumer message: " + event.body()));
-    }
+    vertx.eventBus().consumer("eb1", event -> {
+      System.out.println("ID:+" + ID + " ," + event.address() + " consumer message: " + event.body());
+      event.reply("ok");
+    });
     super.start();
   }
 
